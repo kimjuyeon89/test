@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>전체메뉴</title>
+
+  <!-- 글자·화면 설정 모달에서만 KRDS를 사용합니다. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/krds-uiux@1.0.3/resources/cdn/krds.min.css">
+  <link rel="stylesheet" href="./tab6.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/krds-uiux@1.0.3/resources/cdn/krds.min.js"></script>
+  <script defer src="./tab6.js"></script>
+</head>
+<body>
+  <div id="wrap">
+    <button
+      type="button"
+      class="all-menu-open"
+      aria-haspopup="dialog"
+      aria-controls="all-menu-popup"
+      aria-expanded="false"
+    >
+      전체메뉴 열기
+    </button>
+
+    <div class="all-menu-layer" hidden>
+      <section class="all-menu-popup" id="all-menu-popup" role="dialog" aria-modal="true" aria-labelledby="all-menu-title">
+        <header class="all-menu-header">
+          <h1 id="all-menu-title">전체메뉴</h1>
+          <div class="all-menu-tools">
+            <button
+              type="button"
+              class="krds-btn small text open-modal display-setting-button"
+              data-target="modal_adjust_display"
+              aria-haspopup="dialog"
+              aria-controls="modal_adjust_display"
+            >
+              <i class="svg-icon ico-view-mode" aria-hidden="true"></i>
+              글자·화면 설정
+            </button>
+            <button type="button" class="all-menu-close" aria-label="전체메뉴 닫기">
+              <img src="./images/icon-close.svg" alt="">
+            </button>
+          </div>
+        </header>
+
+        <div class="all-menu-layout">
+          <aside class="all-menu-sidebar">
+            <ul class="menu-tab-list" role="tablist" aria-label="전체메뉴">
+              <li class="active">
+                <button type="button" class="menu-tab" id="tab-menu-1" role="tab" aria-selected="true" aria-controls="panel-menu-1">메뉴1</button>
+              </li>
+              <li>
+                <button type="button" class="menu-tab" id="tab-menu-2" role="tab" aria-selected="false" aria-controls="panel-menu-2">메뉴2</button>
+              </li>
+              <li>
+                <button type="button" class="menu-tab" id="tab-menu-3" role="tab" aria-selected="false" aria-controls="panel-menu-3">메뉴3</button>
+              </li>
+              <li>
+                <button type="button" class="menu-tab" id="tab-menu-4" role="tab" aria-selected="false" aria-controls="panel-menu-4">메뉴4</button>
+              </li>
+            </ul>
+
+            <div class="all-menu-links">
+              <a href="/related/service-1/">링크1</a>
+              <a href="/related/service-2/">링크2</a>
+            </div>
+          </aside>
+
+          <div class="all-menu-content">
+            <section class="menu-panel" id="panel-menu-1" role="tabpanel" aria-labelledby="tab-menu-1" tabindex="0">
+              <h2 class="panel-heading">메뉴1</h2>
+              <div class="menu-grid">
+                <section class="menu-group">
+                  <h3><a href="/menu1/group1/">메뉴명1</a></h3>
+                  <ul>
+                    <li>
+                      <button type="button" class="submenu-button" aria-expanded="false" aria-controls="submenu-1">
+                        하위메뉴명
+                      </button>
+                      <div class="submenu-panel" id="submenu-1">
+                        <div>
+                          <ul class="submenu-list">
+                            <li><a href="/menu1/group1/depth2-1/">2번째 하위메뉴명</a></li>
+                            <li><a href="/menu1/group1/depth2-2/">2번째 하위메뉴명</a></li>
+                            <li><a href="/menu1/group1/depth2-3/">2번째 하위메뉴명</a></li>
+                            <li><a href="/menu1/group1/depth2-3/">2번째 하위메뉴명</a></li>
+                            <li><a href="/menu1/group1/depth2-3/">2번째 하위메뉴명</a></li>
+                            <li><a href="/menu1/group1/depth2-3/">2번째 하위메뉴명</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                    <li><a href="/menu1/group1/item2/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group1/item3/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group1/item4/">하위메뉴명</a></li>
+                  </ul>
+                </section>
+
+                <section class="menu-group">
+                  <h3><a href="/menu1/group2/">메뉴명1</a></h3>
+                  <ul>
+                    <li><a href="/menu1/group2/item1/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group2/item2/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group2/item3/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group2/item4/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group2/item5/">하위메뉴명</a></li>
+                  </ul>
+                </section>
+
+                <section class="menu-group">
+                  <h3><a href="/menu1/group3/">메뉴명1</a></h3>
+                  <ul>
+                    <li><a href="/menu1/group3/item1/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group3/item2/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group3/item3/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group3/item4/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group3/item5/">하위메뉴명</a></li>
+                  </ul>
+                </section>
+
+                <section class="menu-group">
+                  <h3><a href="/menu1/group4/">메뉴명1</a></h3>
+                  <ul>
+                    <li><a href="/menu1/group4/item1/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group4/item2/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group4/item3/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group4/item4/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group4/item5/">하위메뉴명</a></li>
+                  </ul>
+                </section>
+
+                <section class="menu-group">
+                  <h3><a href="/menu1/group5/">메뉴명1</a></h3>
+                  <ul>
+                    <li><a href="/menu1/group5/item1/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group5/item2/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group5/item3/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group5/item4/">하위메뉴명</a></li>
+                    <li><a href="/menu1/group5/item5/">하위메뉴명</a></li>
+                  </ul>
+                </section>
+              </div>
+            </section>
+
+            <section class="menu-panel" id="panel-menu-2" role="tabpanel" aria-labelledby="tab-menu-2" tabindex="0" hidden>
+              <h2 class="panel-heading">메뉴2</h2>
+              <div class="menu-grid">
+                <section class="menu-group">
+                  <h3><a href="/menu2/service/">메뉴2 서비스</a></h3>
+                  <ul>
+                    <li><a href="/menu2/service/item1/">하위메뉴명</a></li>
+                    <li><a href="/menu2/service/item2/">하위메뉴명</a></li>
+                    <li><a href="/menu2/service/item3/">하위메뉴명</a></li>
+                  </ul>
+                </section>
+              </div>
+            </section>
+
+            <section class="menu-panel" id="panel-menu-3" role="tabpanel" aria-labelledby="tab-menu-3" tabindex="0" hidden>
+              <h2 class="panel-heading">메뉴3</h2>
+              <div class="menu-grid">
+                <section class="menu-group">
+                  <h3><a href="/menu3/service/">메뉴3 서비스</a></h3>
+                  <ul>
+                    <li><a href="/menu3/service/item1/">하위메뉴명</a></li>
+                    <li><a href="/menu3/service/item2/">하위메뉴명</a></li>
+                  </ul>
+                </section>
+              </div>
+            </section>
+
+            <section class="menu-panel" id="panel-menu-4" role="tabpanel" aria-labelledby="tab-menu-4" tabindex="0" hidden>
+              <h2 class="panel-heading">메뉴4</h2>
+              <div class="menu-grid">
+                <section class="menu-group">
+                  <h3><a href="/menu4/service/">메뉴4 서비스</a></h3>
+                  <ul>
+                    <li><a href="/menu4/service/item1/">하위메뉴명</a></li>
+                    <li><a href="/menu4/service/item2/">하위메뉴명</a></li>
+                  </ul>
+                </section>
+              </div>
+            </section>
+
+            <div class="all-menu-actions">
+              <button type="button" class="all-menu-action">
+                <img src="./images/icon-cancel.svg" alt="">
+                <span>취소</span>
+              </button>
+              <button type="button" class="all-menu-action">
+                <img src="./images/icon-save.svg" alt="">
+                <span>임시저장</span>
+              </button>
+              <button type="button" class="all-menu-action">
+                <img src="./images/icon-confirm.svg" alt="">
+                <span>확인</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- 글자·화면 설정은 KRDS 모달 구조를 그대로 사용합니다. -->
+  <section id="modal_adjust_display" class="krds-modal fade" role="dialog" aria-modal="true" aria-labelledby="display-setting-title">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="display-setting-title" class="modal-title">글자·화면 표시 설정</h2>
+        </div>
+
+        <div class="modal-conts">
+          <div class="conts-area">
+            <div class="adjust_display display-setting">
+              <fieldset class="adjust_scale display-setting-group">
+                <legend class="display-setting-legend">글자·화면 표시 설정</legend>
+                <div class="krds-check-area chk-column">
+                  <div class="krds-form-check"><input type="radio" name="scale_level" id="scale-small" value="small"><label for="scale-small">작게</label></div>
+                  <div class="krds-form-check"><input type="radio" name="scale_level" id="scale-medium" value="medium" checked><label for="scale-medium">보통</label></div>
+                  <div class="krds-form-check"><input type="radio" name="scale_level" id="scale-large" value="large"><label for="scale-large">조금 크게</label></div>
+                  <div class="krds-form-check"><input type="radio" name="scale_level" id="scale-xlarge" value="xlarge"><label for="scale-xlarge">크게</label></div>
+                  <div class="krds-form-check"><input type="radio" name="scale_level" id="scale-xxlarge" value="xxlarge"><label for="scale-xxlarge">가장 크게</label></div>
+                </div>
+              </fieldset>
+
+              <fieldset class="display-setting-group">
+                <legend class="display-setting-legend">화면 표시 모드</legend>
+                <div class="krds-check-area chk-column display-mode-options">
+                  <div class="krds-form-check screen-preview-light"><input type="radio" name="view_mode" id="mode-light" value="light" checked><label for="mode-light">기본 (밝은 배경)</label></div>
+                  <div class="krds-form-check screen-preview-dark"><input type="radio" name="view_mode" id="mode-dark" value="high-contrast"><label for="mode-dark">선명하게 (어두운 배경)</label></div>
+                  <div class="krds-form-check screen-preview-system"><input type="radio" name="view_mode" id="mode-system" value="theme"><label for="mode-system">시스템 설정</label></div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-btn btn-wrap">
+          <button type="button" class="krds-btn medium tertiary" id="reset-display-settings">초기화</button>
+          <button type="button" class="krds-btn medium primary close-modal">닫기</button>
+        </div>
+        <button type="button" class="krds-btn medium icon btn-close close-modal" aria-label="글자·화면 설정 닫기">
+          <i class="svg-icon ico-popup-close" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    <div class="modal-back" aria-hidden="true"></div>
+  </section>
+</body>
+</html>

@@ -1,11 +1,34 @@
 @charset "utf-8";
 
-/* 전체메뉴가 열렸을 때 배경 페이지 스크롤 방지 */
-body.is-site-menu-open {
+/* 열린 상태의 전체메뉴 화면 */
+body {
+  margin: 0;
+  color: #1e2124;
+  font-family: "Pretendard GOV", Pretendard, sans-serif;
+}
+
+body.all-menu-opened {
   overflow: hidden;
 }
 
-/* 화면 전체를 덮는 팝업 배경 */
+.all-menu-popup,
+.all-menu-popup * {
+  box-sizing: border-box;
+}
+
+/* 전체 화면 배경과 팝업 본체 */
+.all-menu-open {
+  min-height: 4.8rem;
+  margin: 4rem;
+  padding: 0 2.4rem;
+  border: 1px solid #052b57;
+  border-radius: 0.8rem;
+  background: #052b57;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .all-menu-layer {
   position: fixed;
   z-index: 1000;
@@ -17,24 +40,22 @@ body.is-site-menu-open {
   background: #00000073;
 }
 
-.submenu-list[hidden] {
+.all-menu-layer[hidden] {
   display: none;
 }
 
-/* 전체메뉴 팝업 본체 */
 .all-menu-popup {
   display: flex;
   flex-direction: column;
-  width: min(120rem, 100%);
+  width: min(118rem, calc(100vw - 4rem));
   height: min(76rem, calc(100dvh - 4rem));
   overflow: hidden;
   border-radius: 2.4rem;
   background: #fff;
-  color: #1e2124;
   box-shadow: 0 2rem 5rem #00000033;
 }
 
-/* 팝업 상단: 제목, 화면 설정, 닫기 버튼 */
+/* 제목과 상단 도구 */
 .all-menu-header {
   display: flex;
   flex: 0 0 auto;
@@ -65,12 +86,9 @@ body.is-site-menu-open {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #1e2124;
-  line-height: 1;
   cursor: pointer;
 }
 
-/* 닫기 버튼 이미지 크기 */
 .all-menu-close img {
   display: block;
   width: 100%;
@@ -78,47 +96,39 @@ body.is-site-menu-open {
   object-fit: contain;
 }
 
-/* 좌측 탭 메뉴와 우측 탭 콘텐츠 배치 */
+/* 좌측 메뉴와 우측 콘텐츠 */
 .all-menu-layout {
   display: grid;
   grid-template-columns: 24rem minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr);
-  align-items: stretch;
   gap: 3.2rem;
   flex: 1 1 auto;
   min-height: 0;
   padding: 0 3.2rem 3.2rem;
 }
 
-/* 좌측 탭 메뉴 영역 */
-.all-menu-tabs {
+.all-menu-sidebar {
   display: flex;
   flex-direction: column;
   min-height: 0;
   background: #f4f5f6;
 }
 
-.all-menu-tabs > ul {
+/* 프로젝트 전용 탭 */
+.menu-tab-list {
   display: flex;
-  flex: 0 0 auto;
   flex-direction: column;
-  align-items: stretch;
-  gap: 0;
   margin: 0;
   padding: 0;
-  overflow: visible;
   list-style: none;
 }
 
-.all-menu-tabs li {
-  flex: none;
+.menu-tab-list li {
   width: 100%;
 }
 
-.all-menu-tabs .all-menu-tab {
+.menu-tab {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   width: 100%;
   height: 6.4rem;
   padding: 0 3.2rem;
@@ -130,19 +140,12 @@ body.is-site-menu-open {
   cursor: pointer;
 }
 
-.all-menu-tab::before {
-  display: none !important;
-}
-
-/* 현재 선택된 탭은 글자 굵기와 색상으로만 구분 */
-.all-menu-tabs li.active .all-menu-tab {
-  background: #e6e8ea !important;
-  color: #052b57 !important;
+.menu-tab-list li.active .menu-tab {
+  color: #052b57;
   font-weight: 700;
-  box-shadow: none;
 }
 
-/* 좌측 영역 하단에 고정되는 관련 링크 */
+/* 좌측 하단 관련 링크 */
 .all-menu-links {
   display: flex;
   flex-direction: column;
@@ -159,9 +162,7 @@ body.is-site-menu-open {
   text-decoration: none;
 }
 
-/* 관련 링크 오른쪽의 장식용 화살표 이미지 */
 .all-menu-links a::after {
-  flex: 0 0 auto;
   width: 1.6rem;
   height: 1.6rem;
   background: url("./images/icon-arrow-right.svg") no-repeat center / contain;
@@ -172,7 +173,7 @@ body.is-site-menu-open {
   text-decoration: underline;
 }
 
-/* 우측 탭 패널과 하단 버튼 영역 */
+/* 탭 패널과 메뉴 목록 */
 .all-menu-content {
   display: flex;
   flex-direction: column;
@@ -182,11 +183,15 @@ body.is-site-menu-open {
   background: #f4f5f6;
 }
 
-.all-menu-content > .all-menu-panel {
+.menu-panel {
   flex: 1 1 auto;
   min-height: 0;
   padding: 2.4rem 3.2rem;
   overflow-y: auto;
+}
+
+.menu-panel[hidden] {
+  display: none;
 }
 
 .panel-heading {
@@ -194,7 +199,6 @@ body.is-site-menu-open {
   font-size: 2.8rem;
 }
 
-/* 탭 패널 내부 메뉴를 3열로 배치 */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(16rem, 1fr));
@@ -225,7 +229,7 @@ body.is-site-menu-open {
   text-decoration: underline;
 }
 
-/* 2단계 하위메뉴를 여닫는 아코디언 버튼 */
+/* 하위메뉴 아코디언 */
 .submenu-button {
   display: inline-flex;
   align-items: center;
@@ -233,7 +237,7 @@ body.is-site-menu-open {
   padding: 0;
   border: 0;
   background: transparent;
-  color: inherit;
+  color: #1e2124;
   cursor: pointer;
 }
 
@@ -252,14 +256,41 @@ body.is-site-menu-open {
   transform: rotate(225deg);
 }
 
-/* 실제 높이 기반 애니메이션이 잘리도록 하위메뉴 영역 제한 */
+.submenu-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows 0.24s ease,
+    opacity 0.24s ease,
+    visibility 0s 0.24s;
+}
+
+.submenu-panel > div {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.submenu-button[aria-expanded="true"] + .submenu-panel {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
 .submenu-list {
   margin-top: 0.6rem !important;
-  overflow: hidden;
   list-style-type: "·  ";
 }
 
-/* 탭 콘텐츠 아래에 항상 유지되는 작업 버튼 영역 */
+@media (prefers-reduced-motion: reduce) {
+  .submenu-panel {
+    transition: none;
+  }
+}
+
+/* 우측 하단 이미지 버튼 */
 .all-menu-actions {
   display: flex;
   flex: 0 0 auto;
@@ -270,7 +301,6 @@ body.is-site-menu-open {
   background: #fff;
 }
 
-/* 이미지가 위에 있고 버튼명이 아래에 있는 하단 버튼 */
 .all-menu-action {
   display: flex;
   flex-direction: column;
@@ -294,7 +324,7 @@ body.is-site-menu-open {
   object-fit: contain;
 }
 
-/* KRDS 글자·화면 설정: 두 설정 그룹의 기본 배치 */
+/* KRDS 글자·화면 설정 모달 내부 배치 */
 .display-setting {
   display: flex;
   align-items: flex-start;
@@ -317,11 +347,6 @@ body.is-site-menu-open {
   font-weight: 700;
 }
 
-.display-scale-options {
-  min-width: 24rem;
-}
-
-/* 화면 모드 라디오 버튼과 미리보기 이미지 배치 */
 .display-mode-options .krds-form-check {
   display: flex;
   align-items: center;
@@ -349,4 +374,56 @@ body.is-site-menu-open {
 
 .screen-preview-system::before {
   background-image: url("https://www.krds.go.kr/resources/img/guide/contents/main/img_screen_default.png");
+}
+
+/* 선명한 화면과 시스템 다크 모드 */
+[data-krds-mode="high-contrast"] .all-menu-popup,
+[data-krds-mode="theme"][data-krds-theme="dark"] .all-menu-popup {
+  background: #000;
+  color: #fff;
+}
+
+[data-krds-mode="high-contrast"] .all-menu-sidebar,
+[data-krds-mode="high-contrast"] .all-menu-content,
+[data-krds-mode="theme"][data-krds-theme="dark"] .all-menu-sidebar,
+[data-krds-mode="theme"][data-krds-theme="dark"] .all-menu-content {
+  background: #131416;
+}
+
+[data-krds-mode="high-contrast"] .menu-tab,
+[data-krds-mode="theme"][data-krds-theme="dark"] .menu-tab {
+  background: #1e2124;
+  color: #fff;
+}
+
+[data-krds-mode="high-contrast"] .active .menu-tab,
+[data-krds-mode="theme"][data-krds-theme="dark"] .active .menu-tab {
+  color: #8eb8ff;
+}
+
+[data-krds-mode="high-contrast"] .all-menu-links a,
+[data-krds-mode="high-contrast"] .menu-group a,
+[data-krds-mode="high-contrast"] .submenu-button,
+[data-krds-mode="theme"][data-krds-theme="dark"] .all-menu-links a,
+[data-krds-mode="theme"][data-krds-theme="dark"] .menu-group a,
+[data-krds-mode="theme"][data-krds-theme="dark"] .submenu-button {
+  color: #fff;
+}
+
+[data-krds-mode="high-contrast"] .submenu-button::after,
+[data-krds-mode="theme"][data-krds-theme="dark"] .submenu-button::after {
+  border-color: #fff;
+}
+
+[data-krds-mode="high-contrast"] .all-menu-actions,
+[data-krds-mode="theme"][data-krds-theme="dark"] .all-menu-actions {
+  border-color: #58616a;
+  background: #000;
+}
+
+[data-krds-mode="high-contrast"] .all-menu-action,
+[data-krds-mode="theme"][data-krds-theme="dark"] .all-menu-action {
+  border-color: #8a949e;
+  background: #131416;
+  color: #fff;
 }

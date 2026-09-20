@@ -24,31 +24,19 @@
   ></script>
   <script defer src="./tab4.js"></script>
 </head>
-<body>
+<body class="is-site-menu-open">
   <!-- KRDS 모달이 열릴 때 배경을 비활성화할 수 있도록 #wrap으로 묶습니다. -->
   <div id="wrap">
-    <main class="page-content" inert aria-hidden="true">
-      <button
-        type="button"
-        class="krds-btn medium primary all-menu-trigger js-all-menu-open"
-        aria-haspopup="dialog"
-        aria-controls="all-menu-popup"
-        aria-expanded="true"
-      >
-        전체메뉴 열기
-      </button>
-    </main>
-
-    <div class="all-menu-layer js-all-menu-layer">
+    <div class="all-menu-layer">
       <section
         id="all-menu-popup"
-        class="all-menu-popup js-all-menu-popup"
+        class="all-menu-popup"
         role="dialog"
         aria-modal="true"
         aria-labelledby="all-menu-title"
       >
         <header class="all-menu-header">
-          <h1 id="all-menu-title" tabindex="-1">전체메뉴</h1>
+          <h1 id="all-menu-title">전체메뉴</h1>
           <div class="all-menu-tools">
             <button
               type="button"
@@ -60,7 +48,7 @@
               <i class="svg-icon ico-view-mode" aria-hidden="true"></i>
               글자·화면 설정
             </button>
-            <button type="button" class="all-menu-close js-all-menu-close" aria-label="전체메뉴 닫기">
+            <button type="button" class="all-menu-close" aria-label="전체메뉴 닫기">
               <img src="./images/icon-close.svg" alt="닫기">
             </button>
           </div>
@@ -139,7 +127,7 @@
                     <li>
                       <button
                         type="button"
-                        class="submenu-button js-submenu-button"
+                        class="submenu-button"
                         aria-expanded="false"
                         aria-controls="submenu_01_01"
                       >
