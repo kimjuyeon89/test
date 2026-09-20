@@ -1,0 +1,467 @@
+@charset "utf-8";
+
+/* 전체메뉴가 열렸을 때 배경 페이지 스크롤 방지 */
+body.is-site-menu-open {
+  overflow: hidden;
+}
+
+/* 전체메뉴 열기 버튼을 확인하기 위한 예제 페이지 */
+.page-content {
+  padding: 4rem;
+}
+
+/* 화면 전체를 덮는 팝업 배경 */
+.all-menu-layer {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgb(0 0 0 / 45%);
+}
+
+.all-menu-layer[hidden],
+.submenu-list[hidden] {
+  display: none;
+}
+
+/* 전체메뉴 팝업 본체와 화면 모드별 공통 색상 */
+.all-menu-popup {
+  --site-menu-bg: var(--krds-light-color-surface-white, #fff);
+  --site-menu-panel: var(--krds-light-color-surface-gray-subtler, #f4f5f6);
+  --site-menu-tab: var(--krds-light-color-surface-gray-subtle, #e6e8ea);
+  --site-menu-tab-text-active: var(--krds-light-color-text-secondary, #052b57);
+  --site-menu-link-hover: var(--krds-light-color-text-primary, #0b50d0);
+  --site-menu-text: var(--krds-light-color-text-basic, #1e2124);
+
+  display: flex;
+  flex-direction: column;
+  width: min(120rem, 100%);
+  height: min(76rem, calc(100dvh - 4rem));
+  overflow: hidden;
+  border-radius: 2.4rem;
+  background: var(--site-menu-bg);
+  color: var(--site-menu-text);
+  box-shadow: 0 2rem 5rem rgb(0 0 0 / 20%);
+}
+
+/* 팝업 상단: 제목, 화면 설정, 닫기 버튼 */
+.all-menu-header {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 10rem;
+  padding: 2.4rem 3.2rem;
+}
+
+.all-menu-header h1 {
+  margin: 0;
+  font-size: 3.6rem;
+}
+
+.all-menu-tools {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.display-setting-button {
+  min-height: 4.4rem;
+}
+
+.all-menu-close {
+  width: 4.8rem;
+  height: 4.8rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: currentColor;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 닫기 버튼 이미지 크기 */
+.all-menu-close img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 좌측 탭 메뉴와 우측 탭 콘텐츠 배치 */
+.all-menu-layout {
+  display: grid;
+  grid-template-columns: 24rem minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 3.2rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0 3.2rem 3.2rem;
+}
+
+/* 좌측 탭 메뉴 영역 */
+.all-menu-tabs {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--site-menu-panel);
+}
+
+.all-menu-tabs > ul {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  list-style: none;
+}
+
+.all-menu-tabs li {
+  flex: none;
+  width: 100%;
+}
+
+.all-menu-tabs .all-menu-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 6.4rem;
+  padding: 0 3.2rem;
+  border: 0;
+  border-bottom: 1px solid #fff;
+  background: var(--site-menu-tab);
+  color: var(--site-menu-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.all-menu-tab::before {
+  display: none !important;
+}
+
+/* 현재 선택된 탭은 글자 굵기와 색상으로만 구분 */
+.all-menu-tabs li.active .all-menu-tab {
+  background: var(--site-menu-tab) !important;
+  color: var(--site-menu-tab-text-active) !important;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+/* 좌측 영역 하단에 고정되는 관련 링크 */
+.all-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: auto;
+  padding: 2.4rem 3.2rem 4rem;
+}
+
+.all-menu-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--site-menu-text);
+  text-decoration: none;
+}
+
+/* 관련 링크 오른쪽의 장식용 화살표 이미지 */
+.all-menu-links a::after {
+  flex: 0 0 auto;
+  width: 1.6rem;
+  height: 1.6rem;
+  background: url("./images/icon-arrow-right.svg") no-repeat center / contain;
+  content: "";
+}
+
+.all-menu-links a:hover {
+  text-decoration: underline;
+}
+
+/* 우측 탭 패널과 하단 버튼 영역 */
+.all-menu-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--site-menu-panel);
+}
+
+.all-menu-content > .all-menu-panel {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 2.4rem 3.2rem;
+  overflow-y: auto;
+}
+
+.panel-heading {
+  margin: 0 0 1.6rem;
+  font-size: 2.8rem;
+}
+
+/* 탭 패널 내부 메뉴를 3열로 배치 */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(16rem, 1fr));
+  gap: 4rem 5.6rem;
+}
+
+.menu-group h3 {
+  margin: 0 0 0.8rem;
+  font-size: 2.1rem;
+}
+
+.menu-group ul {
+  margin: 0;
+  padding-left: 2rem;
+}
+
+.menu-group li + li {
+  margin-top: 0.4rem;
+}
+
+.menu-group a {
+  color: var(--site-menu-text);
+  text-decoration: none;
+}
+
+.menu-group a:hover {
+  color: var(--site-menu-link-hover);
+  text-decoration: underline;
+}
+
+/* 2단계 하위메뉴를 여닫는 아코디언 버튼 */
+.submenu-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.submenu-button::after {
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-top: -0.4rem;
+  border-right: 0.2rem solid currentColor;
+  border-bottom: 0.2rem solid currentColor;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.submenu-button[aria-expanded="true"]::after {
+  margin-top: 0.4rem;
+  transform: rotate(225deg);
+}
+
+/* 실제 높이 기반 애니메이션이 잘리도록 하위메뉴 영역 제한 */
+.submenu-list {
+  margin-top: 0.6rem !important;
+  overflow: hidden;
+  list-style-type: "·  ";
+}
+
+/* 탭 콘텐츠 아래에 항상 유지되는 작업 버튼 영역 */
+.all-menu-actions {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  gap: 1.2rem;
+  padding: 1.6rem 2.4rem;
+  border-top: 1px solid var(--krds-light-color-border-gray-light, #cdd1d5);
+  background: var(--site-menu-bg);
+}
+
+/* 이미지가 위에 있고 버튼명이 아래에 있는 하단 버튼 */
+.all-menu-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-width: 8rem;
+  min-height: 8rem;
+  padding: 1.2rem;
+  border: 1px solid var(--krds-light-color-border-gray-light, #cdd1d5);
+  border-radius: 0.8rem;
+  background: var(--site-menu-bg);
+  color: var(--site-menu-text);
+  cursor: pointer;
+}
+
+.all-menu-action img {
+  display: block;
+  width: 3.2rem;
+  height: 3.2rem;
+  object-fit: contain;
+}
+
+/* KRDS 글자·화면 설정: 두 설정 그룹의 기본 배치 */
+.display-setting {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--krds-gap-7);
+  padding-top: var(--krds-padding-3);
+}
+
+.display-setting-group {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.display-setting-legend {
+  margin-bottom: var(--krds-padding-3);
+  padding: 0;
+  color: var(--krds-light-color-text-bolder);
+  font-size: var(--krds-pc-font-size-heading-xxsmall);
+  font-weight: var(--krds-font-weight-bold);
+}
+
+.display-scale-options {
+  min-width: 24rem;
+}
+
+/* 화면 모드 라디오 버튼과 미리보기 이미지 배치 */
+.display-mode-options .krds-form-check {
+  display: flex;
+  align-items: center;
+}
+
+.display-mode-options .krds-form-check::before {
+  flex-shrink: 0;
+  width: 12rem;
+  height: 6.4rem;
+  margin-right: var(--krds-gap-5);
+  border-radius: var(--krds-radius-medium4);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  content: "";
+}
+
+.screen-preview-light::before {
+  background-image: url("https://www.krds.go.kr/resources/img/guide/contents/main/img_screen_light.png");
+}
+
+.screen-preview-dark::before {
+  background-image: url("https://www.krds.go.kr/resources/img/guide/contents/main/img_screen_dark.png");
+}
+
+.screen-preview-system::before {
+  background-image: url("https://www.krds.go.kr/resources/img/guide/contents/main/img_screen_default.png");
+}
+
+/* KRDS 선명한 화면 모드 색상 재정의 */
+[data-krds-mode="high-contrast"] .all-menu-popup {
+  --site-menu-bg: var(--krds-high-contrast-color-surface-white, #000);
+  --site-menu-panel: var(--krds-high-contrast-color-surface-gray-subtler, #131416);
+  --site-menu-tab: var(--krds-high-contrast-color-surface-gray-subtle, #1e2124);
+  --site-menu-tab-text-active: var(--krds-high-contrast-color-text-primary, #8bb4ff);
+  --site-menu-link-hover: var(--krds-high-contrast-color-text-primary, #8bb4ff);
+  --site-menu-text: var(--krds-high-contrast-color-text-basic, #fff);
+}
+
+[data-krds-mode="high-contrast"] .display-setting-legend {
+  color: var(--krds-high-contrast-color-text-bolder);
+}
+
+/* 시스템이 다크 모드일 때 KRDS 시스템 설정 색상 적용 */
+@media (prefers-color-scheme: dark) {
+  [data-krds-mode="theme"] .all-menu-popup {
+    --site-menu-bg: var(--krds-high-contrast-color-surface-white, #000);
+    --site-menu-panel: var(--krds-high-contrast-color-surface-gray-subtler, #131416);
+    --site-menu-tab: var(--krds-high-contrast-color-surface-gray-subtle, #1e2124);
+    --site-menu-tab-text-active: var(--krds-high-contrast-color-text-primary, #8bb4ff);
+    --site-menu-link-hover: var(--krds-high-contrast-color-text-primary, #8bb4ff);
+    --site-menu-text: var(--krds-high-contrast-color-text-basic, #fff);
+  }
+}
+
+/* 태블릿 이하에서는 KRDS 정책에 따라 화면 배율 설정 숨김 */
+@media (max-width: 1023px) {
+  .display-setting-scale-group {
+    display: none;
+  }
+}
+
+/* 모바일에서는 팝업을 전체 화면으로 변경하고 1열 메뉴 사용 */
+@media (max-width: 767px) {
+  .all-menu-layer {
+    padding: 0;
+  }
+
+  .all-menu-popup {
+    width: 100%;
+    height: 100dvh;
+    border-radius: 0;
+  }
+
+  .all-menu-header {
+    min-height: 8rem;
+    padding: 1.6rem;
+  }
+
+  .all-menu-header h1 {
+    font-size: 2.8rem;
+  }
+
+  .display-setting-button {
+    max-width: 11rem;
+    font-size: 1.4rem;
+  }
+
+  .display-setting {
+    flex-direction: column;
+  }
+
+  .display-scale-options {
+    min-width: auto;
+  }
+
+  .all-menu-layout {
+    grid-template-columns: 14rem minmax(0, 1fr);
+    gap: 1.2rem;
+    padding: 0 1.6rem 1.6rem;
+  }
+
+  .all-menu-tabs .all-menu-tab {
+    height: 5.6rem;
+    padding: 0 1.6rem;
+  }
+
+  .all-menu-links {
+    padding: 2rem 1.6rem;
+  }
+
+  .all-menu-content > .all-menu-panel {
+    padding: 2rem;
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 3.2rem;
+  }
+
+  .all-menu-actions {
+    padding: 1.2rem;
+  }
+
+  .all-menu-action {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
