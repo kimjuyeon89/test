@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>전체메뉴 팝업</title>
+  <style>
+    :root {
+      --color-primary: #0b50a1;
+      --color-primary-light: #d7e5fb;
+      --color-text: #1e2124;
+      --color-line: #cdd1d5;
+      --color-surface: #f4f5f6;
+      --color-surface-dark: #e6e8ea;
+      --color-white: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 62.5%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--color-text);
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      font-size: 1.6rem;
+      line-height: 1.5;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      padding: 4rem;
+    }
+
+    .open-button {
+      min-height: 4.8rem;
+      padding: 0 2.4rem;
+      border: 0;
+      border-radius: 0.8rem;
+      background: var(--color-primary);
+      color: var(--color-white);
+      font-weight: 700;
+    }
+
+    .popup-backdrop {
+      position: fixed;
+      z-index: 1000;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background: rgb(0 0 0 / 45%);
+    }
+
+    .popup-backdrop[hidden] {
+      display: none;
+    }
+
+    .menu-popup {
+      width: min(120rem, calc(100% - 4rem));
+      height: min(76rem, calc(100dvh - 4rem));
+      overflow: hidden;
+      border-radius: 2.4rem;
+      background: var(--color-white);
+      box-shadow: 0 2rem 5rem rgb(0 0 0 / 20%);
+    }
+
+    .popup-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .popup-header {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 10rem;
+      padding: 2.4rem 3.2rem;
+    }
+
+    .popup-title {
+      margin: 0;
+      font-size: 3.6rem;
+      line-height: 1.2;
+    }
+
+    .popup-tools {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .font-button {
+      min-height: 4.4rem;
+      padding: 0 1.4rem;
+      border: 1px solid var(--color-line);
+      border-radius: 0.6rem;
+      background: var(--color-surface);
+    }
+
+    .close-button {
+      width: 4.8rem;
+      height: 4.8rem;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      font-size: 4.8rem;
+      line-height: 1;
+    }
+
+    .menu-layout {
+      display: grid;
+      grid-template-columns: 24rem minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
+      gap: 3.2rem;
+      flex: 1 1 auto;
+      min-height: 0;
+      padding: 0 3.2rem 3.2rem;
+    }
+
+    .menu-sidebar {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      background: var(--color-surface);
+    }
+
+    .tab-list {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .tab-button {
+      position: relative;
+      width: 100%;
+      min-height: 6.4rem;
+      padding: 1.2rem 3.2rem;
+      border: 0;
+      border-bottom: 1px solid var(--color-white);
+      background: var(--color-surface-dark);
+      color: var(--color-text);
+      font-weight: 700;
+      text-align: left;
+    }
+
+    .tab-button[aria-selected="true"] {
+      background: var(--color-primary-light);
+      color: #052b57;
+    }
+
+    .tab-button[aria-selected="true"]::before {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 0.4rem;
+      background: var(--color-primary);
+      content: "";
+    }
+
+    .related-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: auto;
+      padding: 2.4rem 3.2rem 4rem;
+    }
+
+    .related-link {
+      display: flex;
+      justify-content: space-between;
+      text-decoration: none;
+    }
+
+    .related-link:hover {
+      text-decoration: underline;
+    }
+
+    .content-area {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      background: var(--color-surface);
+    }
+
+    .tab-panel {
+      display: none;
+      flex: 1 1 auto;
+      min-height: 0;
+      padding: 2.4rem 3.2rem;
+      overflow-y: auto;
+    }
+
+    .tab-panel.is-active {
+      display: block;
+    }
+
+    .panel-title {
+      margin: 0 0 1.6rem;
+      font-size: 2.8rem;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(16rem, 1fr));
+      gap: 4rem 5.6rem;
+    }
+
+    .menu-group-title {
+      margin: 0 0 0.8rem;
+      font-size: 2.1rem;
+    }
+
+    .menu-list,
+    .submenu-list {
+      margin: 0;
+      padding-left: 2rem;
+    }
+
+    .menu-item + .menu-item {
+      margin-top: 0.4rem;
+    }
+
+    .menu-link {
+      text-decoration: none;
+    }
+
+    .menu-link:hover {
+      color: var(--color-primary);
+      text-decoration: underline;
+    }
+
+    .submenu-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    .submenu-button::after {
+      width: 0.8rem;
+      height: 0.8rem;
+      margin-top: -0.4rem;
+      border-right: 0.2rem solid currentColor;
+      border-bottom: 0.2rem solid currentColor;
+      content: "";
+      transform: rotate(45deg);
+    }
+
+    .submenu-button[aria-expanded="true"]::after {
+      margin-top: 0.4rem;
+      transform: rotate(225deg);
+    }
+
+    .submenu-list {
+      margin-top: 0.6rem;
+      list-style-type: "·  ";
+    }
+
+    .submenu-list[hidden] {
+      display: none;
+    }
+
+    .popup-actions {
+      display: flex;
+      flex: 0 0 auto;
+      justify-content: flex-end;
+      gap: 1.2rem;
+      padding: 1.6rem 2.4rem;
+      border-top: 1px solid var(--color-line);
+      background: var(--color-white);
+    }
+
+    .action-button {
+      min-width: 8rem;
+      min-height: 4.8rem;
+      padding: 0 2rem;
+      border: 1px solid #58616a;
+      border-radius: 0.8rem;
+      background: var(--color-white);
+      font-weight: 700;
+    }
+
+    .action-primary {
+      border-color: var(--color-primary);
+      background: var(--color-primary);
+      color: var(--color-white);
+    }
+
+    .open-button:focus-visible,
+    .font-button:focus-visible,
+    .close-button:focus-visible,
+    .tab-button:focus-visible,
+    .related-link:focus-visible,
+    .menu-link:focus-visible,
+    .submenu-button:focus-visible,
+    .action-button:focus-visible {
+      border-radius: 0.4rem;
+      outline: 0.3rem solid #256ef4;
+      outline-offset: 0.2rem;
+    }
+
+    @media (max-width: 767px) {
+      .popup-backdrop {
+        padding: 0;
+      }
+
+      .menu-popup {
+        width: 100%;
+        height: 100dvh;
+        border-radius: 0;
+      }
+
+      .popup-header {
+        min-height: 8rem;
+        padding: 1.6rem;
+      }
+
+      .popup-title {
+        font-size: 2.8rem;
+      }
+
+      .font-button {
+        max-width: 11rem;
+        font-size: 1.4rem;
+      }
+
+      .menu-layout {
+        grid-template-columns: 14rem minmax(0, 1fr);
+        gap: 1.2rem;
+        padding: 0 1.6rem 1.6rem;
+      }
+
+      .tab-button {
+        min-height: 5.6rem;
+        padding: 1rem 1.6rem;
+      }
+
+      .related-links {
+        padding: 2rem 1.6rem;
+      }
+
+      .tab-panel {
+        padding: 2rem;
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 3.2rem;
+      }
+
+      .popup-actions {
+        padding: 1.2rem;
+      }
+
+      .action-button {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 0 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <button type="button" class="open-button" aria-haspopup="dialog">
+      전체메뉴 열기
+    </button>
+  </main>
+
+  <div class="popup-backdrop" hidden>
+    <section
+      class="menu-popup"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="popup-title"
+    >
+      <div class="popup-inner">
+        <header class="popup-header">
+          <h1 class="popup-title" id="popup-title">전체메뉴</h1>
+          <div class="popup-tools">
+            <button type="button" class="font-button">글씨 크기 조절</button>
+            <button type="button" class="close-button" aria-label="전체메뉴 닫기">×</button>
+          </div>
+        </header>
+
+      <div class="menu-layout">
+        <aside class="menu-sidebar">
+          <div class="tab-list" role="tablist" aria-label="전체메뉴">
+            <button
+              type="button"
+              class="tab-button"
+              id="tab-1"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel-1"
+              tabindex="0"
+            >
+              메뉴1
+            </button>
+            <button
+              type="button"
+              class="tab-button"
+              id="tab-2"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-2"
+              tabindex="-1"
+            >
+              메뉴2
+            </button>
+            <button
+              type="button"
+              class="tab-button"
+              id="tab-3"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-3"
+              tabindex="-1"
+            >
+              메뉴3
+            </button>
+            <button
+              type="button"
+              class="tab-button"
+              id="tab-4"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-4"
+              tabindex="-1"
+            >
+              메뉴4
+            </button>
+          </div>
+
+          <nav class="related-links" aria-label="관련 링크">
+            <a class="related-link" href="#">
+              <span>링크1</span><span aria-hidden="true">›</span>
+            </a>
+            <a class="related-link" href="#">
+              <span>링크2</span><span aria-hidden="true">›</span>
+            </a>
+          </nav>
+        </aside>
+
+        <div class="content-area">
+          <section
+            class="tab-panel is-active"
+            id="panel-1"
+            role="tabpanel"
+            aria-labelledby="tab-1"
+            tabindex="0"
+          >
+            <h2 class="panel-title">메뉴1</h2>
+            <div class="menu-grid">
+              <section class="menu-group">
+                <h3 class="menu-group-title"><a class="menu-link" href="#">메뉴명1</a></h3>
+                <ul class="menu-list">
+                  <li class="menu-item">
+                    <button
+                      type="button"
+                      class="submenu-button"
+                      aria-expanded="false"
+                      aria-controls="submenu-1"
+                    >
+                      하위메뉴명
+                    </button>
+                    <ul class="submenu-list" id="submenu-1" hidden>
+                      <li><a class="menu-link" href="#">2번째 하위메뉴명</a></li>
+                      <li><a class="menu-link" href="#">2번째 하위메뉴명</a></li>
+                      <li><a class="menu-link" href="#">2번째 하위메뉴명</a></li>
+                    </ul>
+                  </li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                </ul>
+              </section>
+
+              <section class="menu-group">
+                <h3 class="menu-group-title"><a class="menu-link" href="#">메뉴명1</a></h3>
+                <ul class="menu-list">
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                </ul>
+              </section>
+
+              <section class="menu-group">
+                <h3 class="menu-group-title"><a class="menu-link" href="#">메뉴명1</a></h3>
+                <ul class="menu-list">
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                </ul>
+              </section>
+
+              <section class="menu-group">
+                <h3 class="menu-group-title"><a class="menu-link" href="#">메뉴명1</a></h3>
+                <ul class="menu-list">
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                </ul>
+              </section>
+
+              <section class="menu-group">
+                <h3 class="menu-group-title"><a class="menu-link" href="#">메뉴명1</a></h3>
+                <ul class="menu-list">
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                </ul>
+              </section>
+            </div>
+          </section>
+
+          <section
+            class="tab-panel"
+            id="panel-2"
+            role="tabpanel"
+            aria-labelledby="tab-2"
+            tabindex="0"
+            hidden
+          >
+            <h2 class="panel-title">메뉴2</h2>
+            <div class="menu-grid">
+              <section class="menu-group">
+                <h3 class="menu-group-title"><a class="menu-link" href="#">메뉴2 서비스</a></h3>
+                <ul class="menu-list">
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                </ul>
+              </section>
+            </div>
+          </section>
+
+          <section
+            class="tab-panel"
+            id="panel-3"
+            role="tabpanel"
+            aria-labelledby="tab-3"
+            tabindex="0"
+            hidden
+          >
+            <h2 class="panel-title">메뉴3</h2>
+            <div class="menu-grid">
+              <section class="menu-group">
+                <h3 class="menu-group-title"><a class="menu-link" href="#">메뉴3 서비스</a></h3>
+                <ul class="menu-list">
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                </ul>
+              </section>
+            </div>
+          </section>
+
+          <section
+            class="tab-panel"
+            id="panel-4"
+            role="tabpanel"
+            aria-labelledby="tab-4"
+            tabindex="0"
+            hidden
+          >
+            <h2 class="panel-title">메뉴4</h2>
+            <div class="menu-grid">
+              <section class="menu-group">
+                <h3 class="menu-group-title"><a class="menu-link" href="#">메뉴4 서비스</a></h3>
+                <ul class="menu-list">
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                  <li class="menu-item"><a class="menu-link" href="#">하위메뉴명</a></li>
+                </ul>
+              </section>
+            </div>
+          </section>
+
+          <footer class="popup-actions">
+            <button type="button" class="action-button">버튼</button>
+            <button type="button" class="action-button">버튼</button>
+            <button type="button" class="action-button action-primary">버튼</button>
+          </footer>
+        </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const backdrop = document.querySelector(".popup-backdrop");
+    const popup = document.querySelector(".menu-popup");
+    const openButton = document.querySelector(".open-button");
+    const closeButton = document.querySelector(".close-button");
+    const fontButton = document.querySelector(".font-button");
+    const tabs = [...document.querySelectorAll(".tab-button")];
+    const panels = [...document.querySelectorAll(".tab-panel")];
+    const submenuButtons = document.querySelectorAll(".submenu-button");
+    const fontSizes = ["62.5%", "68.75%", "75%"];
+    let fontIndex = 0;
+
+    let lastFocusedElement = openButton;
+
+    function openPopup() {
+      lastFocusedElement = document.activeElement;
+      backdrop.hidden = false;
+      document.body.classList.add("modal-open");
+      closeButton.focus();
+    }
+
+    function closePopup() {
+      backdrop.hidden = true;
+      document.body.classList.remove("modal-open");
+      lastFocusedElement.focus();
+    }
+
+    function selectTab(selectedTab, moveFocus = false) {
+      tabs.forEach((tab) => {
+        const selected = tab === selectedTab;
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      });
+
+      panels.forEach((panel) => {
+        const selected = panel.id === selectedTab.getAttribute("aria-controls");
+        panel.classList.toggle("is-active", selected);
+        panel.hidden = !selected;
+      });
+
+      if (moveFocus) selectedTab.focus();
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => selectTab(tab));
+
+      tab.addEventListener("keydown", (event) => {
+        let nextIndex;
+
+        if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+          nextIndex = (index + 1) % tabs.length;
+        } else if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+          nextIndex = (index - 1 + tabs.length) % tabs.length;
+        } else if (event.key === "Home") {
+          nextIndex = 0;
+        } else if (event.key === "End") {
+          nextIndex = tabs.length - 1;
+        } else {
+          return;
+        }
+
+        event.preventDefault();
+        selectTab(tabs[nextIndex], true);
+      });
+    });
+
+    submenuButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const submenu = document.getElementById(button.getAttribute("aria-controls"));
+        const expanded = button.getAttribute("aria-expanded") === "true";
+
+        button.setAttribute("aria-expanded", String(!expanded));
+        submenu.hidden = expanded;
+      });
+    });
+
+    openButton.addEventListener("click", openPopup);
+    closeButton.addEventListener("click", closePopup);
+
+    backdrop.addEventListener("click", (event) => {
+      if (event.target === backdrop) closePopup();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (backdrop.hidden) return;
+      if (event.key === "Escape") closePopup();
+      if (event.key !== "Tab") return;
+
+      const focusable = [...popup.querySelectorAll("button, a[href], [tabindex]")]
+        .filter((item) => item.tabIndex >= 0 && !item.closest("[hidden]"));
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    fontButton.addEventListener("click", () => {
+      fontIndex = (fontIndex + 1) % fontSizes.length;
+      document.documentElement.style.fontSize = fontSizes[fontIndex];
+    });
+
+    openPopup();
+  </script>
+</body>
+</html>

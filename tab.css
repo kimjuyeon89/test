@@ -1,0 +1,179 @@
+@charset "utf-8";
+
+:root {
+  --krds-color-secondary-5: #eef2f7;
+  --krds-color-secondary-10: #d6e0eb;
+  --krds-color-secondary-70: #063a74;
+  --krds-color-secondary-80: #052b57;
+  --krds-color-gray-30: #b1b8be;
+  --krds-color-gray-70: #464c53;
+  --krds-color-text: #1e2124;
+  --krds-color-focus: #256ef4;
+  --krds-transition-base: 0.2s ease-in-out;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--krds-color-text);
+  font-family: "Pretendard GOV", "Pretendard", "Noto Sans KR", Arial, sans-serif;
+  font-size: 1.7rem;
+  line-height: 1.5;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.example-wrap {
+  width: min(100% - 4rem, 120rem);
+  margin: 8rem auto;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* KRDS Tab */
+.krds-tab-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3.2rem;
+  width: 100%;
+}
+
+.tab {
+  width: 100%;
+}
+
+.tab > [role="tablist"] {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tab .btn-tab {
+  position: relative;
+  display: inline-flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 6.4rem;
+  height: 5.6rem;
+  padding: 0 0.4rem;
+  border-bottom: 2px solid var(--krds-color-gray-30);
+  background: transparent;
+  color: var(--krds-color-gray-70);
+  font-size: 1.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: color var(--krds-transition-base),
+              background-color var(--krds-transition-base);
+}
+
+.tab .btn-tab::before {
+  position: absolute;
+  bottom: -0.2rem;
+  left: 50%;
+  width: 0;
+  height: 0.4rem;
+  background: var(--krds-color-secondary-70);
+  content: "";
+  transition: left var(--krds-transition-base), width var(--krds-transition-base);
+}
+
+.tab .btn-tab:hover {
+  background: var(--krds-color-secondary-5);
+}
+
+.tab .btn-tab:active {
+  background: var(--krds-color-secondary-10);
+}
+
+.tab .btn-tab:focus-visible {
+  z-index: 1;
+  border-radius: 0.4rem;
+  outline: 0.2rem solid var(--krds-color-focus);
+  outline-offset: -0.4rem;
+}
+
+.tab .btn-tab.active {
+  color: var(--krds-color-secondary-80);
+}
+
+.tab .btn-tab.active::before {
+  left: 0;
+  width: 100%;
+}
+
+.tab-conts-wrap {
+  width: 100%;
+}
+
+.tab-conts {
+  display: none;
+  margin-top: 4rem;
+}
+
+.tab-conts.active {
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-conts h2 {
+  margin: 0 0 1.6rem;
+  font-size: 2.4rem;
+  line-height: 1.4;
+}
+
+.tab-conts p {
+  margin: 0;
+}
+
+.tab-conts:focus-visible {
+  border-radius: 0.4rem;
+  outline: 0.2rem solid var(--krds-color-focus);
+  outline-offset: 0.4rem;
+}
+
+@media (max-width: 767px) {
+  .example-wrap {
+    width: min(100% - 3.2rem, 120rem);
+    margin: 4rem auto;
+  }
+
+  .tab .btn-tab {
+    font-size: 1.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab .btn-tab,
+  .tab .btn-tab::before {
+    transition: none;
+  }
+}

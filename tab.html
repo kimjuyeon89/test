@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KRDS 전체메뉴 팝업</title>
+  <link rel="stylesheet" href="./tab.css">
+  <!-- 프로젝트 전용 덮어쓰기 CSS: KRDS CSS 다음에 로드 -->
+  <link rel="stylesheet" href="./popup.css">
+</head>
+<body>
+  <main class="example-wrap">
+    <button type="button" class="popup-open-button" aria-haspopup="dialog">
+      전체메뉴 열기
+    </button>
+  </main>
+
+  <div class="popup-backdrop">
+    <section
+      class="menu-popup"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="menu-popup-title"
+    >
+      <header class="menu-popup-header">
+        <h1 id="menu-popup-title">전체메뉴</h1>
+        <div class="menu-popup-tools">
+          <button type="button" class="font-size-button">글씨 크기 조절</button>
+          <button type="button" class="popup-close-button" aria-label="전체메뉴 닫기">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- KRDS tab: 구조와 클래스 유지 -->
+      <div class="krds-tab-area layer popup-tab-layout">
+        <!-- tab list -->
+        <div class="tab line full popup-tab-nav">
+          <ul role="tablist" aria-label="전체메뉴">
+            <li
+              id="tab_menu_01"
+              class="active"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel_menu_01"
+            >
+              <button type="button" class="btn-tab">
+                메뉴1<i class="sr-only selected-text"> 선택됨</i>
+              </button>
+            </li>
+            <li
+              id="tab_menu_02"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel_menu_02"
+            >
+              <button type="button" class="btn-tab">메뉴2</button>
+            </li>
+            <li
+              id="tab_menu_03"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel_menu_03"
+            >
+              <button type="button" class="btn-tab">메뉴3</button>
+            </li>
+            <li
+              id="tab_menu_04"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel_menu_04"
+            >
+              <button type="button" class="btn-tab">메뉴4</button>
+            </li>
+          </ul>
+
+          <nav class="popup-related-links" aria-label="관련 링크">
+            <a href="#">
+              <span>링크1</span><span aria-hidden="true">›</span>
+            </a>
+            <a href="#">
+              <span>링크2</span><span aria-hidden="true">›</span>
+            </a>
+          </nav>
+        </div>
+        <!-- //tab list -->
+
+        <!-- tab contents -->
+        <div class="tab-conts-wrap popup-tab-content">
+          <section
+            id="panel_menu_01"
+            class="tab-conts active"
+            role="tabpanel"
+            aria-labelledby="tab_menu_01"
+            tabindex="0"
+          >
+            <h2>메뉴1</h2>
+            <div class="menu-link-grid">
+              <section class="menu-link-group">
+                <h3><a href="#">메뉴명1</a></h3>
+                <ul>
+                    <li>
+                      <button
+                        type="button"
+                        class="submenu-toggle"
+                        aria-expanded="false"
+                        aria-controls="submenu_01_01"
+                      >
+                        하위메뉴명
+                      </button>
+                      <ul id="submenu_01_01" class="submenu-depth-2" hidden>
+                        <li><a href="#">2번째 하위메뉴명</a></li>
+                        <li><a href="#">2번째 하위메뉴명</a></li>
+                        <li><a href="#">2번째 하위메뉴명</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">하위메뉴명</a></li>
+                  <li><a href="#">하위메뉴명</a></li>
+                  <li><a href="#">하위메뉴명</a></li>
+                </ul>
+              </section>
+            
+            
+            </div>
+          </section>
+
+          <section
+            id="panel_menu_02"
+            class="tab-conts"
+            role="tabpanel"
+            aria-labelledby="tab_menu_02"
+            tabindex="0"
+            hidden
+          >
+            <h2>메뉴2</h2>
+            <div class="menu-link-grid">
+              <section class="menu-link-group">
+                <h3><a href="#">메뉴2 주요 서비스</a></h3>
+                <ul>
+                  <li><a href="#">하위메뉴명</a></li>
+                  <li><a href="#">하위메뉴명</a></li>
+                  <li><a href="#">하위메뉴명</a></li>
+                </ul>
+              </section>
+              <section class="menu-link-group">
+                <h3><a href="#">메뉴2 안내</a></h3>
+                <ul>
+                  <li><a href="#">하위메뉴명</a></li>
+                  <li><a href="#">하위메뉴명</a></li>
+                </ul>
+              </section>
+            </div>
+          </section>
+
+          <section
+            id="panel_menu_03"
+            class="tab-conts"
+            role="tabpanel"
+            aria-labelledby="tab_menu_03"
+            tabindex="0"
+            hidden
+          >
+            <h2>메뉴3</h2>
+            <div class="menu-link-grid">
+              <section class="menu-link-group">
+                <h3><a href="#">메뉴3 주요 서비스</a></h3>
+                <ul>
+                  <li><a href="#">하위메뉴명</a></li>
+                  <li><a href="#">하위메뉴명</a></li>
+                  <li><a href="#">하위메뉴명</a></li>
+                </ul>
+              </section>
+            </div>
+          </section>
+
+          <section
+            id="panel_menu_04"
+            class="tab-conts"
+            role="tabpanel"
+            aria-labelledby="tab_menu_04"
+            tabindex="0"
+            hidden
+          >
+            <h2>메뉴4</h2>
+            <div class="menu-link-grid">
+              <section class="menu-link-group">
+                <h3><a href="#">메뉴4 주요 서비스</a></h3>
+                <ul>
+                  <li><a href="#">하위메뉴명</a></li>
+                  <li><a href="#">하위메뉴명</a></li>
+                  <li><a href="#">하위메뉴명</a></li>
+                </ul>
+              </section>
+            </div>
+          </section>
+
+          <div class="popup-actions">
+            <button type="button" class="popup-action secondary">버튼</button>
+            <button type="button" class="popup-action secondary">버튼</button>
+            <button type="button" class="popup-action primary">버튼</button>
+          </div>
+        </div>
+        <!-- //tab contents -->
+      </div>
+      <!-- //KRDS tab -->
+    </section>
+  </div>
+
+  <script src="./tab.js"></script>
+</body>
+</html>

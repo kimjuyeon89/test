@@ -1,0 +1,411 @@
+@charset "utf-8";
+
+body.all-menu-opened {
+  overflow: hidden;
+}
+
+.example-page {
+  padding: 4rem;
+}
+
+.all-menu-backdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgb(0 0 0 / 45%);
+}
+
+.all-menu-backdrop[hidden] {
+  display: none;
+}
+
+.all-menu-popup {
+  --all-menu-bg: var(--krds-light-color-surface-white, #fff);
+  --all-menu-panel: var(--krds-light-color-surface-gray-subtler, #f4f5f6);
+  --all-menu-tab: var(--krds-light-color-surface-gray-subtle, #e6e8ea);
+  --all-menu-tab-active: var(--krds-light-color-surface-primary-subtler, #ecf2fe);
+  --all-menu-text: var(--krds-light-color-text-basic, #1e2124);
+
+  display: flex;
+  flex-direction: column;
+  width: min(120rem, 100%);
+  height: min(76rem, calc(100dvh - 4rem));
+  overflow: hidden;
+  border-radius: 2.4rem;
+  background: var(--all-menu-bg);
+  color: var(--all-menu-text);
+  box-shadow: 0 2rem 5rem rgb(0 0 0 / 20%);
+}
+
+.all-menu-header {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 10rem;
+  padding: 2.4rem 3.2rem;
+}
+
+.all-menu-header h1 {
+  margin: 0;
+  font-size: 3.6rem;
+}
+
+.all-menu-tools {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.display-settings-open {
+  min-height: 4.4rem;
+}
+
+.all-menu-close {
+  width: 4.8rem;
+  height: 4.8rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 4.8rem;
+  line-height: 1;
+}
+
+.krds-tab-area.all-menu-layout {
+  display: grid;
+  grid-template-columns: 24rem minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 3.2rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0 3.2rem 3.2rem;
+}
+
+.all-menu-tabs {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--all-menu-panel);
+}
+
+.all-menu-tabs > ul {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  overflow: visible;
+}
+
+.all-menu-tabs li {
+  flex: none;
+  width: 100%;
+}
+
+.all-menu-tabs .btn-tab {
+  justify-content: flex-start;
+  width: 100%;
+  height: 6.4rem;
+  padding: 0 3.2rem;
+  border: 0;
+  border-bottom: 1px solid #fff;
+  background: var(--all-menu-tab);
+  color: var(--all-menu-text);
+  text-align: left;
+}
+
+.all-menu-tabs .btn-tab::before {
+  top: 0;
+  bottom: auto;
+  left: 0;
+  width: 0.4rem;
+  height: 0;
+}
+
+.all-menu-tabs .active .btn-tab {
+  background: var(--all-menu-tab-active);
+  color: var(--krds-light-color-text-secondary, #052b57);
+}
+
+.all-menu-tabs .active .btn-tab::before {
+  width: 0.4rem;
+  height: 100%;
+}
+
+.all-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: auto;
+  padding: 2.4rem 3.2rem 4rem;
+}
+
+.all-menu-links a {
+  display: flex;
+  justify-content: space-between;
+  color: var(--all-menu-text);
+  text-decoration: none;
+}
+
+.all-menu-links a:hover {
+  text-decoration: underline;
+}
+
+.all-menu-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--all-menu-panel);
+}
+
+.all-menu-content > .tab-conts {
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: 0;
+  padding: 2.4rem 3.2rem;
+  overflow-y: auto;
+}
+
+.all-menu-content > .tab-conts.active {
+  display: block;
+}
+
+.panel-title {
+  margin: 0 0 1.6rem;
+  font-size: 2.8rem;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(16rem, 1fr));
+  gap: 4rem 5.6rem;
+}
+
+.menu-group h3 {
+  margin: 0 0 0.8rem;
+  font-size: 2.1rem;
+}
+
+.menu-group ul {
+  margin: 0;
+  padding-left: 2rem;
+}
+
+.menu-group li + li {
+  margin-top: 0.4rem;
+}
+
+.menu-group a {
+  color: var(--all-menu-text);
+  text-decoration: none;
+}
+
+.menu-group a:hover {
+  color: var(--krds-light-color-text-primary, #0b50d0);
+  text-decoration: underline;
+}
+
+.submenu-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.submenu-toggle::after {
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-top: -0.4rem;
+  border-right: 0.2rem solid currentColor;
+  border-bottom: 0.2rem solid currentColor;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.submenu-toggle[aria-expanded="true"]::after {
+  margin-top: 0.4rem;
+  transform: rotate(225deg);
+}
+
+.submenu {
+  margin-top: 0.6rem !important;
+  list-style-type: "·  ";
+}
+
+.submenu[hidden] {
+  display: none;
+}
+
+.all-menu-actions {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  gap: 1.2rem;
+  padding: 1.6rem 2.4rem;
+  border-top: 1px solid var(--krds-light-color-border-gray-light, #cdd1d5);
+  background: var(--all-menu-bg);
+}
+
+.display-settings-open:focus-visible,
+.all-menu-close:focus-visible,
+.all-menu-links a:focus-visible,
+.menu-group a:focus-visible,
+.submenu-toggle:focus-visible {
+  border-radius: 0.4rem;
+  outline: 0.3rem solid var(--krds-light-color-border-primary, #256ef4);
+  outline-offset: 0.2rem;
+}
+
+/* KRDS 메인 사이트의 글자·화면 표시 설정 */
+.adjust_display {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--krds-gap-7);
+  padding-top: var(--krds-padding-3);
+}
+
+.adjust_display h3 {
+  margin-bottom: var(--krds-padding-3);
+  color: var(--krds-light-color-text-bolder);
+  font-size: var(--krds-pc-font-size-heading-xxsmall);
+  font-weight: var(--krds-font-weight-bold);
+}
+
+.scale-options {
+  min-width: 24rem;
+}
+
+.view-mode-options .krds-form-check {
+  display: flex;
+  align-items: center;
+}
+
+.view-mode-options .krds-form-check::before {
+  flex-shrink: 0;
+  width: 12rem;
+  height: 6.4rem;
+  margin-right: var(--krds-gap-5);
+  border-radius: var(--krds-radius-medium4);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  content: "";
+}
+
+.view-mode-light::before {
+  background-image: url("https://www.krds.go.kr/resources/img/guide/contents/main/img_screen_light.png");
+}
+
+.view-mode-dark::before {
+  background-image: url("https://www.krds.go.kr/resources/img/guide/contents/main/img_screen_dark.png");
+}
+
+.view-mode-default::before {
+  background-image: url("https://www.krds.go.kr/resources/img/guide/contents/main/img_screen_default.png");
+}
+
+[data-krds-mode="high-contrast"] .all-menu-popup {
+  --all-menu-bg: var(--krds-high-contrast-color-surface-white, #000);
+  --all-menu-panel: var(--krds-high-contrast-color-surface-gray-subtler, #131416);
+  --all-menu-tab: var(--krds-high-contrast-color-surface-gray-subtle, #1e2124);
+  --all-menu-tab-active: var(--krds-high-contrast-color-surface-primary-subtler, #020f27);
+  --all-menu-text: var(--krds-high-contrast-color-text-basic, #fff);
+}
+
+[data-krds-mode="high-contrast"] .adjust_display h3 {
+  color: var(--krds-high-contrast-color-text-bolder);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-krds-mode="theme"] .all-menu-popup {
+    --all-menu-bg: var(--krds-high-contrast-color-surface-white, #000);
+    --all-menu-panel: var(--krds-high-contrast-color-surface-gray-subtler, #131416);
+    --all-menu-tab: var(--krds-high-contrast-color-surface-gray-subtle, #1e2124);
+    --all-menu-tab-active: var(--krds-high-contrast-color-surface-primary-subtler, #020f27);
+    --all-menu-text: var(--krds-high-contrast-color-text-basic, #fff);
+  }
+}
+
+@media (max-width: 1023px) {
+  .adjust_scale {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .all-menu-backdrop {
+    padding: 0;
+  }
+
+  .all-menu-popup {
+    width: 100%;
+    height: 100dvh;
+    border-radius: 0;
+  }
+
+  .all-menu-header {
+    min-height: 8rem;
+    padding: 1.6rem;
+  }
+
+  .all-menu-header h1 {
+    font-size: 2.8rem;
+  }
+
+  .display-settings-open {
+    max-width: 11rem;
+    font-size: 1.4rem;
+  }
+
+  .adjust_display {
+    flex-direction: column;
+  }
+
+  .scale-options {
+    min-width: auto;
+  }
+
+  .krds-tab-area.all-menu-layout {
+    grid-template-columns: 14rem minmax(0, 1fr);
+    gap: 1.2rem;
+    padding: 0 1.6rem 1.6rem;
+  }
+
+  .all-menu-tabs .btn-tab {
+    height: 5.6rem;
+    padding: 0 1.6rem;
+  }
+
+  .all-menu-links {
+    padding: 2rem 1.6rem;
+  }
+
+  .all-menu-content > .tab-conts {
+    padding: 2rem;
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 3.2rem;
+  }
+
+  .all-menu-actions {
+    padding: 1.2rem;
+  }
+
+  .all-menu-actions .krds-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0 1rem;
+  }
+}
