@@ -340,17 +340,18 @@ html.font-scale-xxlarge {
 }
 
 .font-setting-popup {
-  position: absolute;
-  z-index: 10;
-  top: calc(100% + 1.2rem);
-  right: 0;
+  position: fixed;
+  z-index: 1100;
+  top: 50%;
+  left: 50%;
   display: none;
-  width: 38rem;
+  width: min(38rem, calc(100vw - 4rem));
   padding: 2.4rem;
   border: 1px solid #cdd1d5;
   border-radius: 1.2rem;
   background: #fff;
   box-shadow: 0 1.2rem 3.2rem #00000026;
+  transform: translate(-50%, -50%);
 }
 
 .font-setting-popup.is-open {
